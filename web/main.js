@@ -1,7 +1,8 @@
-var date = [];
-var speedUp = [];
-var speedDown = [];
-var coords = [];
+let date = [];
+let speedUp = [];
+let speedDown = [];
+let coords = [];
+let sponsor = [];
 let url = 'http://localhost:8080';
 
 
@@ -16,14 +17,14 @@ function makeMap() {
         maxZoom: 18,
     }).addTo(map);
 
-    for (var i in coords, date, speedDown, speedDown){
-        text = "<strong>" +coords[i][2]+"</strong><br>" + new Date(date[i]) + "<br>down: "+ speedDown[i] +  " Mbit/s<br>up: " + speedUp[i] +  " Mbit/s"
 
-        L.marker([coords[i][0], coords[i][1]]).addTo(map)
-            .bindPopup(text)
-            .openPopup();
+    popupText = "<strong>" +sponsor[coords.length - 1]+"</strong><br>" + new Date(date[date.length - 1]) + "<br>down: "+ speedDown[speedDown.length - 1] +  " Mbit/s<br>up: " + speedUp[speedUp.length - 1] +  " Mbit/s"
 
-    }
+    L.marker([coords[coords.length - 1][0], coords[coords.length - 1][1]]).addTo(map)
+        .bindPopup(popupText)
+        .openPopup();
+
+
 
 
 }
@@ -75,9 +76,9 @@ function getTests(){
         for (let i in data){
             speedDown.push(data[i][1]);
             speedUp.push(data[i][2]);
+            let coord = [data[i][4], data[i][5]];
+            sponsor.push(data[i][8]);
             date.push(data[i][9]);
-
-            let coord = [data[i][4], data[i][5], data[i][8]];
             coords.push(coord);
 
         }

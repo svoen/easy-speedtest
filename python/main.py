@@ -86,7 +86,11 @@ def start_speedtest():
                 next = next - 60
                 next_time = datetime.now() + timedelta(hours=1)
                 next_time = next_time.strftime("%H")
-                next_time = next_time + ":" + str(next)
+                if next == 0:
+                    next_time = next_time = next_time + ":" + str(next) + "0"
+                else:
+                    next_time = next_time = next_time + ":" + str(next)
+
                 start = str(next)
 
 
