@@ -13,7 +13,10 @@ import json
 db_name = "speedtests.db"
 
 #Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
-time_interval = {"start": "26", "interval": "120"}
+start = str(input("Start Minute der Stunde [MM]: "))
+
+interval = str(input("Interval in Minuten [MM]: "))
+time_interval = {"start": start, "interval": interval}
 
 #--------------------SQL Statements----------------#
 sqls_delete_table = "DROP TABLE IF EXISTS results;"
