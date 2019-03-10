@@ -14,11 +14,11 @@ import main
 
 
 class Serv(BaseHTTPRequestHandler):
-    print("---> start Server")
+    print("---> starte Http-Server")
     def do_GET(self):
         try:
 
-            file_to_open = main.db_query()
+            response = main.db_query()
             self.send_response(200)
             self.send_header('Access-Control-Allow-Origin', '*')
             self.send_header('Access-Control-Allow-Methods', 'GET')
@@ -26,12 +26,12 @@ class Serv(BaseHTTPRequestHandler):
 
 
         except:
-            file_to_open = "Nichts gefunden..."
+            response = "Nichts gefunden..."
             self.send_response(404)
 
 
         self.end_headers()
-        self.wfile.write(bytes(file_to_open, 'utf-8'))
+        self.wfile.write(bytes(response, 'utf-8'))
 
 
 

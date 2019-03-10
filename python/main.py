@@ -13,7 +13,7 @@ import json
 db_name = "speedtests.db"
 
 #Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
-time_interval = {"start": "00", "interval": "60"}
+time_interval = {"start": "26", "interval": "120"}
 
 #--------------------SQL Statements----------------#
 sqls_delete_table = "DROP TABLE IF EXISTS results;"
@@ -54,45 +54,54 @@ def db_query():
 
     return json.dumps(results)
 
+def timer():
+    current_min = datetime.now().strftime('%M')
+    current_hour = datetime.now().strftime("%H")
+    skip_hour = 0
+    next = int(current_min) + int(time_interval["interval"])
+
+    next_hour = (datetime.now() + timedelta(hours=1)).strftime("%H")
+
+
+    if time_interval["interval"] == "00":
+        start = time_interval["interval"]
+        next_time = next_hour + ":" + start
+        return start, next_time
+    else:
+        while next >= 60:
+            next = next - 60
+            skip_hour += 1
+        if next < 10:
+            start = "0" + str(next)
+        else:
+            start = str(next)
+        next_time = (datetime.now() + timedelta(hours=skip_hour)).strftime("%H") + ":" + start
+        return start, next_time
+
+def wait():
+    min_now = datetime.now().strftime('%M')
+    if int(time_interval["start"]) > int(min_now):
+        start_time = datetime.now().strftime('%H') + ":" + time_interval["start"]
+        print("---> warte auf Start um: %s Uhr" % start_time)
+    else:
+        start_time = datetime.now() + timedelta(hours=1)
+        start_time = start_time.strftime('%H') + ":" + time_interval["start"]
+        print("---> warte auf Start um: %s Uhr" % start_time)
+
 
 def start_speedtest():
 
     execute(db_name, sqls_init_table, None)
-
-    start = time_interval["start"]
-    current_start = datetime.now().strftime('%M')
-    if start > current_start:
-        start_time = datetime.now().strftime('%H') + ":" + start
-    else:
-        start_time = datetime.now() + timedelta(hours=1)
-        start_time = start_time.strftime('%H') + ":" + start
-
-    print("---> warte auf Start um : %s Uhr" % start_time)
-
+    wait()
     while True:
 
+        if datetime.now().strftime('%M') == time_interval["start"]:
+            print("---> starte Speedtest um: %s Uhr" % datetime.now().strftime('%H:%M'))
+            print("---> Speedtest läuft...")
 
-        current_min = datetime.now().strftime('%M')
-        if current_min == start:
-            print("---> beginne Speedtest")
-
-            min = datetime.now().strftime("%M")
-            next = int(min) + int(time_interval["interval"])
-            if next < 60:
-                next_time = datetime.now().strftime("%H")
-                next_time = next_time + ":" + str(next)
-                start = str(next)
-            else:
-                next = next - 60
-                next_time = datetime.now() + timedelta(hours=1)
-                next_time = next_time.strftime("%H")
-                if next == 0:
-                    next_time = next_time = next_time + ":" + str(next) + "0"
-                else:
-                    next_time = next_time = next_time + ":" + str(next)
-
-                start = str(next)
-
+            times = timer()
+            start = times[0]
+            next_time = times[1]
 
             test = speedtester()
             results = test[0]
@@ -105,7 +114,7 @@ def start_speedtest():
 
 
             print("---> nächster Speedtest um : %s Uhr" % next_time)
-            sleep(int(time_interval["interval"]) * 60 - duration)
+            sleep(int(time_interval["interval"]) * 60 - duration - 5)
 
 
 

@@ -8,7 +8,6 @@ import socket
 import time
 
 
-print("Host Name: %s" % socket.gethostname())
 
 
 
@@ -18,8 +17,9 @@ def speedtester():
 
     ssl._create_default_https_context = ssl._create_unverified_context
     ip = socket.gethostbyname(socket.gethostname())
+    host = socket.gethostname()
 
-    print("---> starte Speedtest: %s" % ip)
+    print("---> starte Speedtest von %s %s" % (host, ip))
     s = speedtest.Speedtest(source_address=ip)
     s.get_best_server()
     s.download()
@@ -52,7 +52,6 @@ def speedtester():
               "down": down
               }
 
-    print(result)
     duration = time.time() - start_time
     print("---> Speedtest fertig in %s Sekunden" % round(duration))
 
