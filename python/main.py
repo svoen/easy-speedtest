@@ -12,9 +12,8 @@ import json
 # Datenbank Name
 db_name = "speedtests.db"
 
-#Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
+# Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
 start = str(input("Start Minute der Stunde [MM]: "))
-
 interval = str(input("Interval in Minuten [MM]: "))
 time_interval = {"start": start, "interval": interval}
 
@@ -59,12 +58,9 @@ def db_query():
 
 def timer():
     current_min = datetime.now().strftime('%M')
-    current_hour = datetime.now().strftime("%H")
     skip_hour = 0
     next = int(current_min) + int(time_interval["interval"])
-
     next_hour = (datetime.now() + timedelta(hours=1)).strftime("%H")
-
 
     if time_interval["interval"] == "00":
         start = time_interval["interval"]
@@ -86,25 +82,27 @@ def wait():
     if int(time_interval["start"]) > int(min_now):
         start_time = datetime.now().strftime('%H') + ":" + time_interval["start"]
         print("---> warte auf Start um: %s Uhr" % start_time)
+        sleep((int(time_interval["start"]) - int(min_now)) * 60 - 10)
+
     else:
         start_time = datetime.now() + timedelta(hours=1)
         start_time = start_time.strftime('%H') + ":" + time_interval["start"]
         print("---> warte auf Start um: %s Uhr" % start_time)
-
+        sleep(((60 - int(min_now)) + int(time_interval["start"])) * 60 - 10)
 
 def start_speedtest():
 
     execute(db_name, sqls_init_table, None)
     wait()
+
     while True:
 
-        if datetime.now().strftime('%M') == time_interval["start"]:
-            print("---> starte Speedtest um: %s Uhr" % datetime.now().strftime('%H:%M'))
-            print("---> Speedtest läuft...")
+        times = timer()
+        start = times[0]
+        next_time = times[1]
 
-            times = timer()
-            start = times[0]
-            next_time = times[1]
+        if datetime.now().strftime('%M') == start:
+            print("---> Speedtest läuft...")
 
             test = speedtester()
             results = test[0]

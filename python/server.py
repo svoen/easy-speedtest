@@ -10,9 +10,6 @@ import json
 
 import main
 
-
-
-
 class Serv(BaseHTTPRequestHandler):
     print("---> starte Http-Server")
     def do_GET(self):
@@ -32,11 +29,6 @@ class Serv(BaseHTTPRequestHandler):
 
         self.end_headers()
         self.wfile.write(bytes(response, 'utf-8'))
-
-
-
-
-
 
 httpd = HTTPServer(('localhost', 8080), Serv)
 

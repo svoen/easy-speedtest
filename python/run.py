@@ -3,9 +3,6 @@ import server
 
 from threading import Thread
 
-
-
-
 if __name__ == "__main__":
 
     t1 = Thread(target=main.start_speedtest)
