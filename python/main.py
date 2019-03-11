@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-from speedtester import speedtester
+from speedtester import speeds
 from db_handler import execute
 from time import sleep
 import json
@@ -56,10 +56,11 @@ def db_query():
 
     return json.dumps(results)
 
-def timer():
-    current_min = datetime.now().strftime('%M')
+def next():
+
+    min_now = datetime.now().strftime('%M')
     skip_hour = 0
-    next = int(current_min) + int(time_interval["interval"])
+    next = int(min_now) + int(time_interval["interval"])
     next_hour = (datetime.now() + timedelta(hours=1)).strftime("%H")
 
     if time_interval["interval"] == "00":
@@ -77,34 +78,62 @@ def timer():
         next_time = (datetime.now() + timedelta(hours=skip_hour)).strftime("%H") + ":" + start
         return start, next_time
 
+
+
+def timer(init):
+        start = time_interval["start"]
+        init = not init
+        return start, init
+
+
 def wait():
     min_now = datetime.now().strftime('%M')
     if int(time_interval["start"]) > int(min_now):
         start_time = datetime.now().strftime('%H') + ":" + time_interval["start"]
         print("---> warte auf Start um: %s Uhr" % start_time)
-        sleep((int(time_interval["start"]) - int(min_now)) * 60 - 10)
 
+        while datetime.now().strftime('%M') != time_interval["start"]:
+            pass
+
+        #sleep((int(time_interval["start"]) - int(min_now)) * 60 - 10)
+    elif time_interval["start"] == min_now:
+        print("--->")
     else:
         start_time = datetime.now() + timedelta(hours=1)
         start_time = start_time.strftime('%H') + ":" + time_interval["start"]
         print("---> warte auf Start um: %s Uhr" % start_time)
-        sleep(((60 - int(min_now)) + int(time_interval["start"])) * 60 - 10)
+        while datetime.now().strftime('%M') != time_interval["start"]:
+            pass
+        #sleep(((60 - int(min_now)) + int(time_interval["start"])) * 60 - 5)
 
 def start_speedtest():
+    init = True
 
     execute(db_name, sqls_init_table, None)
     wait()
 
     while True:
 
-        times = timer()
-        start = times[0]
-        next_time = times[1]
+        if init:
+            check = timer(init)
+            start = check[0]
+            init = check[1]
+            print("init = True")
+
+        print(init)
+        print(start)
 
         if datetime.now().strftime('%M') == start:
+
+            start = next()[0]
+            next_time = next()[1]
+
+
+
+
             print("---> Speedtest läuft...")
 
-            test = speedtester()
+            test = speeds()
             results = test[0]
             duration = test[1]
             values = (results["download"], results["upload"], results["ping"], results["lat"], results["lon"], results["name"], results["country"],
@@ -115,7 +144,10 @@ def start_speedtest():
 
 
             print("---> nächster Speedtest um : %s Uhr" % next_time)
-            sleep(int(time_interval["interval"]) * 60 - duration - 5)
+
+            while datetime.now().strftime('%M') != start:
+                pass
+            #sleep(int(time_interval["interval"]) * 60 - duration - 5)
 
 
 
