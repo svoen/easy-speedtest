@@ -3,7 +3,7 @@ let speedUp = [];
 let speedDown = [];
 let coords = [];
 let sponsor = [];
-let url = 'http://localhost:8080';
+let url = 'http://localhost:8040';
 
 
 
@@ -23,9 +23,6 @@ function makeMap() {
     L.marker([coords[coords.length - 1][0], coords[coords.length - 1][1]]).addTo(map)
         .bindPopup(popupText)
         .openPopup();
-
-
-
 
 }
 
@@ -63,17 +60,16 @@ function plotTests() {
 
     Plotly.newPlot('plot', values, layout);
 
-
-
-
 }
 
 
 function getTests(){
 
-    return $.getJSON(url).then(function(data){
 
-        for (let i in data){
+    return $.getJSON(url).then(function (data) {
+
+
+        for (let i in data) {
             speedDown.push(data[i][1]);
             speedUp.push(data[i][2]);
             let coord = [data[i][4], data[i][5]];
@@ -87,13 +83,14 @@ function getTests(){
         makeMap();
 
 
-
-
     });
+
 }
 
 
 getTests()
 
 
-
+$.getJSON(url, function() {
+    alert("success");
+}).error(function() { alert("error"); }).complete(function() { alert("complete"); });

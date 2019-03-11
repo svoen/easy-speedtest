@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-from speedtester import speeds
+from speedtester import get_test
 from db_handler import execute
 from time import sleep
 import json
@@ -46,26 +46,42 @@ sql_select_table = "SELECT * FROM results"
 #---------------------Main--------------------#
 
 
-
 def db_query():
     results = dict()
-
     rows = execute(db_name, sql_select_table, None)
     for row in rows:
         results[row[0]] = row
 
     return json.dumps(results)
 
-def next():
+def wait():
+    min_now = datetime.now().strftime('%M')
+    if int(time_interval["start"]) > int(min_now):
+        start_time = datetime.now().strftime('%H') + ":" + time_interval["start"]
+        print("---> warte auf Start um: %s Uhr" % start_time)
+        while datetime.now().strftime('%M') != time_interval["start"]:
+            pass
 
+    elif min_now == time_interval["start"]:
+        print("--->")
+    else:
+        start_time = datetime.now() + timedelta(hours=1)
+        start_time = start_time.strftime('%H') + ":" + time_interval["start"]
+        print("---> warte auf Start um: %s Uhr" % start_time)
+        while datetime.now().strftime('%M') != time_interval["start"]:
+            pass
+
+    return time_interval["start"]
+
+def timer():
     min_now = datetime.now().strftime('%M')
     skip_hour = 0
     next = int(min_now) + int(time_interval["interval"])
     next_hour = (datetime.now() + timedelta(hours=1)).strftime("%H")
-
     if time_interval["interval"] == "00":
         start = time_interval["interval"]
         next_time = next_hour + ":" + start
+
         return start, next_time
     else:
         while next >= 60:
@@ -76,79 +92,33 @@ def next():
         else:
             start = str(next)
         next_time = (datetime.now() + timedelta(hours=skip_hour)).strftime("%H") + ":" + start
+
         return start, next_time
 
 
+def test():
+    execute(db_name, sqls_init_table, None)
+    test = get_test()
+    results = test[0]
+    duration = test[1]
+    values = (results["download"], results["upload"], results["ping"], results["lat"], results["lon"], results["name"], results["country"],
+             results["sponsor"], results["datetime"], results["up"], results["down"])
 
-def timer(init):
-        start = time_interval["start"]
-        init = not init
-        return start, init
+    print("---> Schreibe in Datenbank %s : %s" % (db_name, values))
+    execute(db_name, sql_insert_table, values)
 
-
-def wait():
-    min_now = datetime.now().strftime('%M')
-    if int(time_interval["start"]) > int(min_now):
-        start_time = datetime.now().strftime('%H') + ":" + time_interval["start"]
-        print("---> warte auf Start um: %s Uhr" % start_time)
-
-        while datetime.now().strftime('%M') != time_interval["start"]:
-            pass
-
-        #sleep((int(time_interval["start"]) - int(min_now)) * 60 - 10)
-    elif time_interval["start"] == min_now:
-        print("--->")
-    else:
-        start_time = datetime.now() + timedelta(hours=1)
-        start_time = start_time.strftime('%H') + ":" + time_interval["start"]
-        print("---> warte auf Start um: %s Uhr" % start_time)
-        while datetime.now().strftime('%M') != time_interval["start"]:
-            pass
-        #sleep(((60 - int(min_now)) + int(time_interval["start"])) * 60 - 5)
 
 def start_speedtest():
-    init = True
-
-    execute(db_name, sqls_init_table, None)
-    wait()
-
+    start = wait()
     while True:
-
-        if init:
-            check = timer(init)
-            start = check[0]
-            init = check[1]
-            print("init = True")
-
-        print(init)
-        print(start)
-
         if datetime.now().strftime('%M') == start:
-
-            start = next()[0]
-            next_time = next()[1]
-
-
-
-
-            print("---> Speedtest läuft...")
-
-            test = speeds()
-            results = test[0]
-            duration = test[1]
-            values = (results["download"], results["upload"], results["ping"], results["lat"], results["lon"], results["name"], results["country"],
-                     results["sponsor"], results["datetime"], results["up"], results["down"])
-
-            print("---> Schreibe in Datenbank %s : %s" % (db_name, values))
-            execute(db_name, sql_insert_table, values)
-
-
+            times = timer()
+            start = times[0]
+            print("")
+            next_time = times[1]
+            test()
             print("---> nächster Speedtest um : %s Uhr" % next_time)
-
-            while datetime.now().strftime('%M') != start:
-                pass
-            #sleep(int(time_interval["interval"]) * 60 - duration - 5)
-
+            print("")
 
 
 

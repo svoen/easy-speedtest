@@ -8,16 +8,17 @@ import socket
 import time
 from datetime import datetime
 
-def speeds():
+def get_test():
     try:
         start_time = time.time()
-
         ssl._create_default_https_context = ssl._create_unverified_context
         ip = socket.gethostbyname(socket.gethostname())
         #ip = "192.168.178.23"
         host = socket.gethostname()
-        print("---> starte Speedtest um: %s Uhr" % datetime.now().strftime("%H:%M"))
+
         print("---> Host: %s %s" % (host, ip))
+        print("---> starte Speedtest um: %s Uhr" % datetime.now().strftime("%H:%M"))
+        print("---> Speedtest läuft...")
         s = Speedtest(source_address=ip)
         s.get_best_server()
         s.download()
