@@ -74,7 +74,7 @@ function getTests(){
             speedUp.push(data[i][2]);
             let coord = [data[i][4], data[i][5]];
             sponsor.push(data[i][8]);
-            date.push(data[i][9]);
+            date.push(new Date(data[i][9]));
             coords.push(coord);
 
         }
