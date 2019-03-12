@@ -3,7 +3,7 @@ let speedUp = [];
 let speedDown = [];
 let coords = [];
 let sponsor = [];
-let url = 'http://localhost:8040';
+let url = 'http://davmol.zapto.org:8040';
 
 
 
@@ -86,11 +86,3 @@ function getTests(){
     });
 
 }
-
-
-getTests()
-
-
-$.getJSON(url, function() {
-    alert("success");
-}).error(function() { alert("error"); }).complete(function() { alert("complete"); });
