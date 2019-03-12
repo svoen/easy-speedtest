@@ -87,6 +87,7 @@ def timer():
         while next >= 60:
             next = next - 60
             skip_hour += 1
+
         if next < 10:
             start = "0" + str(next)
         else:
@@ -119,6 +120,7 @@ def start_speedtest():
             test()
             print("---> nächster Speedtest um : %s Uhr" % next_time)
             print("")
+            sleep(int(time_interval["interval"]) * 60 - 60)
 
 
 
