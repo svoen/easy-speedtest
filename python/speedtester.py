@@ -8,7 +8,7 @@ import socket
 import time
 from datetime import datetime
 
-def get_test():
+def test():
     try:
         start_time = time.time()
         ssl._create_default_https_context = ssl._create_unverified_context

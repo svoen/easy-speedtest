@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime, timedelta
-from speedtester import get_test
+from speedtester import test
 from db_handler import execute
 from time import sleep
 import json
@@ -97,11 +97,11 @@ def timer():
         return start, next_time
 
 
-def test():
+def get_test():
     execute(__db_name, sqls_init_table, None)
-    test = get_test()
-    results = test[0]
-    duration = test[1]
+    tests = test()
+    results = tests[0]
+    duration = tests[1]
     values = (results["download"], results["upload"], results["ping"], results["lat"], results["lon"], results["name"], results["country"],
              results["sponsor"], results["datetime"], results["up"], results["down"])
 
@@ -117,7 +117,7 @@ def start_speedtest():
             start = times[0]
             print("")
             next_time = times[1]
-            test()
+            get_test()
             print("---> nächster Speedtest um : %s Uhr" % next_time)
             print("")
             sleep(int(time_interval["interval"]) * 60 - 60)
