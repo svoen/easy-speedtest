@@ -27,6 +27,7 @@ class Serv(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(response, 'utf-8'))
 
-httpd = HTTPServer(('localhost', 8040), Serv)
+def serve():
+    HTTPServer(('localhost', 8040), Serv).serve_forever()
 
 

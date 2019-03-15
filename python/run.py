@@ -3,10 +3,17 @@ import server
 
 from threading import Thread
 
+
+
+
+
+
+
+
 if __name__ == "__main__":
 
     t1 = Thread(target=main.start_speedtest)
-    t2 = Thread(target=server.httpd.serve_forever)
+    t2 = Thread(target=server.serve)
 
     t1.setDaemon(True)
     t2.setDaemon(True)

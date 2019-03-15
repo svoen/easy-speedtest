@@ -10,7 +10,7 @@ import json
 #---------------------Variablen--------------------#
 
 # Datenbank Name
-db_name = "speedtests.db"
+__db_name = "speedtests.db"
 
 # Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
 start = str(input("Start Minute der Stunde [MM]: "))
@@ -48,7 +48,7 @@ sql_select_table = "SELECT * FROM results"
 
 def db_query():
     results = dict()
-    rows = execute(db_name, sql_select_table, None)
+    rows = execute(__db_name, sql_select_table, None)
     for row in rows:
         results[row[0]] = row
 
@@ -98,15 +98,15 @@ def timer():
 
 
 def test():
-    execute(db_name, sqls_init_table, None)
+    execute(__db_name, sqls_init_table, None)
     test = get_test()
     results = test[0]
     duration = test[1]
     values = (results["download"], results["upload"], results["ping"], results["lat"], results["lon"], results["name"], results["country"],
              results["sponsor"], results["datetime"], results["up"], results["down"])
 
-    print("---> Schreibe in Datenbank %s : %s" % (db_name, values))
-    execute(db_name, sql_insert_table, values)
+    print("---> Schreibe in Datenbank %s : %s" % (__db_name, values))
+    execute(__db_name, sql_insert_table, values)
 
 
 def start_speedtest():
