@@ -25,7 +25,7 @@ def test():
         s.upload()
         s.results.share()
         response = s.results.dict()
-
+        print(response)
         download = round(float(response["download"]) / 1048576, 2)
         upload = round(float(response["upload"]) / 1048576, 2)
         ping = round(response["ping"])

@@ -15,6 +15,10 @@ __db_name = "speedtests.db"
 # Timer zum Einstell für die Startzeit: start: <Minuten der Stunde>, interval: <Intervall in Minuten>
 start = str(input("Start Minute der Stunde [MM]: "))
 interval = str(input("Interval in Minuten [MM]: "))
+if start == "60":
+    start = "00"
+if interval == "00":
+    interval = "60"
 time_interval = {"start": start, "interval": interval}
 
 #--------------------SQL Statements----------------#
