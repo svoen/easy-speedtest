@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5ff0131-4004-478b-be49-aa4fdf78490e" name="Default Changelist" comment="test" />
+    <list default="true" id="f5ff0131-4004-478b-be49-aa4fdf78490e" name="Default Changelist" comment="test">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python/geocoder.py" beforeDir="false" afterPath="$PROJECT_DIR$/python/geocoder.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,12 +34,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="97" />
-    <option name="y" value="23" />
-    <option name="width" value="1408" />
-    <option name="height" value="877" />
   </component>
   <component name="ProjectId" id="1e4seXWpEm1fq51CEpRgFW5ounH" />
   <component name="ProjectLevelVcsManager">
@@ -124,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593592646324</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="test">
+      <created>1593592870654</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1593592870654</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -132,6 +136,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="SHOW_OTHER_BRANCHES" value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -149,9 +156,17 @@
     <option name="LAST_COMMIT_MESSAGE" value="test" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="448" y="295" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593592523376">
+    <state x="94" y="94" width="1092" height="572" key="DiffContextDialog" timestamp="1593594622951">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="448" y="295" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.760@0.0.1280.760" timestamp="1593592523376" />
+    <state x="94" y="94" width="1092" height="572" key="DiffContextDialog/0.0.1280.760@0.0.1280.760" timestamp="1593594622951" />
+    <state x="234" y="114" key="Vcs.Push.Dialog.v2" timestamp="1593592902206">
+      <screen x="0" y="0" width="1280" height="760" />
+    </state>
+    <state x="234" y="114" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1593592902206" />
+    <state x="448" y="295" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1593592806892">
+      <screen x="0" y="0" width="1280" height="760" />
+    </state>
+    <state x="448" y="295" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.760@0.0.1280.760" timestamp="1593592806892" />
   </component>
 </project>
